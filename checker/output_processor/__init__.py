@@ -1,2 +1,3 @@
 from .i_output_processor import IOutputProcessor, OutputData, ApiMethodCheckResult, ArgCheckResult, Status
 from .print_output_processor import PrintOutputProcessor
+from .log_errors_only_output_processor import LogErrorsOnlyOutputProcessor

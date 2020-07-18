@@ -1,4 +1,5 @@
 import argparse
+from pathlib import Path
 
 from .i_input_processor import *
 
@@ -19,6 +20,8 @@ class CmdInputProcessor(IInputProcessor):
         self._get_message_detail_resp_req_arg_names_arg_name = 'get_message_detail_resp_args'
 
         self._delete_message_url_arg_name = 'delete_message_url'
+
+        self._log_file_arg_name = 'log_file_path'
 
     async def process(self) -> PreparedInputData:
         parser = argparse.ArgumentParser()
@@ -46,6 +49,9 @@ class CmdInputProcessor(IInputProcessor):
         parser.add_argument(self._arg_name_as_raw(self._delete_message_url_arg_name),
                             help='Delete message url', type=str, required=True)
 
+        parser.add_argument(self._arg_name_as_raw(self._log_file_arg_name),
+                            help='Log file path', type=Path, required=True)
+
         args = parser.parse_args()
 
         get_all_user_messages_resp_req_args = tuple(getattr(args, self._get_all_user_messages_req_args_arg_name))
@@ -63,7 +69,9 @@ class CmdInputProcessor(IInputProcessor):
 
                                    get_all_user_messages_resp_req_args=get_all_user_messages_resp_req_args,
                                    send_message_resp_req_args=send_message_resp_req_args,
-                                   get_message_detail_resp_req_args=get_message_detail_resp_req_args)
+                                   get_message_detail_resp_req_args=get_message_detail_resp_req_args,
+
+                                   log_file=getattr(args, self._log_file_arg_name))
         return result
 
     @staticmethod

@@ -33,6 +33,10 @@ class ApiMethodCheckResult:
                 and self.response_code == 200
                 and all(check.is_exist for check in self.args_checks))
 
+    @property
+    def missing_args(self):
+        return (arg_check for arg_check in self.args_checks if arg_check.is_exist is False)
+
 
 @dataclass(frozen=True)
 class OutputData:
