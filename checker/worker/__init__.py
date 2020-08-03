@@ -50,7 +50,7 @@ class Worker:
             if response.status == 200:
                 try:
                     resp = await response.json()
-                except json.JSONDecodeError:
+                except (json.JSONDecodeError, aiohttp.ContentTypeError):
                     return ApiMethodCheckResult(url=self._input_data.get_all_user_messages_url,
                                                 status=Status.RESPONSE_DECODE_ERROR)
                 else:
@@ -83,7 +83,7 @@ class Worker:
             if resp.status == 200:
                 try:
                     resp = await resp.json()
-                except json.JSONDecodeError:
+                except (json.JSONDecodeError, aiohttp.ContentTypeError):
                     result = ApiMethodCheckResult(url=self._input_data.get_all_user_messages_url,
                                                   status=Status.RESPONSE_DECODE_ERROR)
                     return None, result
@@ -111,7 +111,7 @@ class Worker:
             if resp.status == 200:
                 try:
                     resp = await resp.json()
-                except json.JSONDecodeError:
+                except (json.JSONDecodeError, aiohttp.ContentTypeError):
                     result = ApiMethodCheckResult(url=self._input_data.get_message_detail_url,
                                                   status=Status.RESPONSE_DECODE_ERROR)
                     return result
